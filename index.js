@@ -1,21 +1,11 @@
 // eslint-disable-next-line no-unused-vars
+require('dotenv').config()
+// eslint-disable-next-line no-unused-vars
 const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const mongoose = require('mongoose')
-
-const blogSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    url: String,
-    likes: Number
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
-
-const mongoUrl = 'mongodb+srv://fullstack:password.0@cluster0.vdr7k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+const Blog = require('./models/blog')
 
 app.use(cors())
 app.use(express.json())
@@ -38,7 +28,8 @@ app.post('/api/blogs', (request, response) => {
         })
 })
 
-const PORT = 3003
+// eslint-disable-next-line no-undef
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
