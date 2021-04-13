@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 const mongoose = require('mongoose')
-
-const mongoUrl = process.env.MONGODB_URI
+const config = require('../utils/config')
+const mongoUrl = config.MONGODB_URI
 console.log('Connecting to: ', mongoUrl)
 
 const blogSchema = new mongoose.Schema({
