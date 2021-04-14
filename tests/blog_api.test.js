@@ -3,18 +3,15 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-
-const initialBlog = [
-    { title: 'Blog 1', author: 'Author 1', url: 'http://url1.com', likes: 10 },
-    { title: 'blog 2', author: 'author 2', url: 'http://url2.com', likes: 5 },
-    { title: 'blog 3', author: 'author 3', url: 'http://url3.com', likes: 8 }
-]
+const helper = require('./test_helper')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blogObject = new Blog(initialBlog[0])
+    let blogObject = new Blog(helper.initialBlog[0])
     await blogObject.save()
-    blogObject = new Blog(initialBlog[1])
+    blogObject = new Blog(helper.initialBlog[1])
+    await blogObject.save()
+    blogObject = new Blog(helper.initialBlog[2])
     await blogObject.save()
 })
 
@@ -32,13 +29,39 @@ test('Does it have ID?', async () => {
     expect(response.body.map(r => r.id)).not.toBe(undefined)
 })
 
-test.only('Test http post', async () => {
-    let blogObject = new Blog(initialBlog[2])
-    await blogObject.save()
+test('Test http post', async () => {
+    const newBlog = {
+        title: 'Test blog',
+        author: 'Luthien'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlog.length + 1)
+
+    const content = blogsAtEnd.map(r => r.title)
+    expect(content).toContain('Test blog')
+})
+
+test.only('Likes missing', async () => {
+    const newBlog = {
+        tilte: 'Test blog',
+        author: 'Luthien'
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
-    const content = response.body.map(r => r.title)
-    expect(content).toContain('blog 3')
+    expect(response.body.map(l => l.likes).includes(undefined)).not.toBe(true)
 })
 
 afterAll(() => {
