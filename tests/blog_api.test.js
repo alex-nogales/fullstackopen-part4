@@ -7,12 +7,11 @@ const helper = require('./test_helper')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
-    let blogObject = new Blog(helper.initialBlog[0])
-    await blogObject.save()
-    blogObject = new Blog(helper.initialBlog[1])
-    await blogObject.save()
-    blogObject = new Blog(helper.initialBlog[2])
-    await blogObject.save()
+
+    const blogObject = helper.initialBlog
+        .map(blog => new Blog(blog))
+    const promiseArray = blogObject.map(blog => blog.save())
+    await Promise.all(promiseArray)
 })
 
 
@@ -48,7 +47,7 @@ test('Test http post', async () => {
     expect(content).toContain('Test blog')
 })
 
-test.only('Likes missing', async () => {
+test('Likes missing', async () => {
     const newBlog = {
         tilte: 'Test blog',
         author: 'Luthien'
@@ -63,6 +62,29 @@ test.only('Likes missing', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body.map(l => l.likes).includes(undefined)).not.toBe(true)
 })
+
+test('Missing tittle or url', async () => {
+    const newBlog = {
+        title: 'title1',
+        author: 'Luthien',
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+})
+
+test('Retrieve one', async () => {
+    const response = await api.get('/api/blogs')
+    const id = response.body.map(id => id.id)[0]
+
+    await api
+        .get(`/api/blogs/${id}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+})
+
 
 afterAll(() => {
     mongoose.connection.close()
