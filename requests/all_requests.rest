@@ -5,3 +5,6 @@ Content-Type: application/json
     "title": "Test controllers",
     "author": "Tu vieja"
 }
+
+###
+GET http://localhost:3003/api/blogs
