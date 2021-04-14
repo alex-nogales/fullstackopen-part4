@@ -3,11 +3,28 @@ Content-Type: application/json
 
 {
     "title": "Test controllers",
-    "author": "Tu vieja"
+    "author": "Tu vieja",
+    "url": "http:tuvieja.com"
 }
 
 ###
-GET http://localhost:3003/api/blogs
+GET http://localhost:3003/api/blogs/
 
 ###
-GET http://localhost:3003/api/blogs/
+PUT http://localhost:3003/api/blogs/60770415ea98dfbd2fcd9586
+Content-Type: application/json
+
+{
+    "likes": 30
+}
+
+###
+PUT http://localhost:3003/api/blogs/60770415ea98dfbd2fcd9586
+Content-Type: application/json
+
+{
+    "title": "Jarcorino las tarrias",
+    "author": "El tarrias",
+    "url": "http://lastarrias.com",
+    "likes": 40
+}
