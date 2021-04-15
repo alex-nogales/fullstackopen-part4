@@ -14,6 +14,14 @@ beforeEach(async () => {
         .map(blog => new Blog(blog))
     const promiseArray = blogObject.map(blog => blog.save())
     await Promise.all(promiseArray)
+
+    await User.deleteMany({})
+    const newUser = new User({
+        username: 'anogales',
+        passwordHash: await bcrypt.hash('password', 10)
+    })
+    await newUser.save()
+
 })
 
 
@@ -33,11 +41,16 @@ test('Does it have ID?', async () => {
 test('Test http post', async () => {
     const newBlog = {
         title: 'Test blog',
-        author: 'Luthien'
+        author: 'Luthien',
+        url: 'http:12313.ocm'
     }
+
+    const response = await api.post('/api/login')
+        .send({ username: 'anogales', password: 'password' })
 
     await api
         .post('/api/blogs')
+        .set('Authorization', `bearer ${response.body.token}`)
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -49,20 +62,22 @@ test('Test http post', async () => {
     expect(content).toContain('Test blog')
 })
 
-test('Likes missing', async () => {
+test.only('Likes missing', async () => {
     const newBlog = {
         tilte: 'Test blog',
-        author: 'Luthien'
+        author: 'Luthien',
+        url: 'faceboad.com'
     }
+    const token = await api.post('/api/login').send({ username: 'anogales', password: 'password' })
 
-    await api
+    const { body } = await api
         .post('/api/blogs')
+        .set('Authorization', `bearer ${token.body.token}`)
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
-    const response = await api.get('/api/blogs')
-    expect(response.body.map(l => l.likes).includes(undefined)).not.toBe(true)
+    expect(body.map(l => l.likes).includes(undefined)).not.toBe(true)
 })
 
 test('Missing tittle or url', async () => {

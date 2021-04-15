@@ -1,4 +1,6 @@
+/* eslint-disable no-undef */
 const logger = require('./logger')
+const jwt = require('jsonwebtoken')
 
 const requestLogger = (request, response, next) => {
     logger.info('Method:', request.method)
@@ -17,6 +19,18 @@ const tokenExtractor = (request, response, next) => {
     const bearerPrefix = 'bearer '
     if (authorization && authorization.toLowerCase().startsWith(bearerPrefix)) {
         request.token = authorization.substring(bearerPrefix.length)
+    }
+    next()
+}
+
+const userExtractor = (request, response, next) => {
+    const authorization = request.get('authorization')
+    const bearerPrefix = 'bearer '
+
+    if(authorization && authorization.toLowerCase().startsWith(bearerPrefix)) {
+        const token = jwt.verify(authorization.substring(bearerPrefix.length)
+            ,process.env.SECRET)
+        request.user = token.username
     }
     next()
 }
@@ -44,5 +58,5 @@ const errorHandler = (error, request, response, next) => {
 }
 
 module.exports = ({
-    requestLogger, unknownEndpoint, errorHandler, tokenExtractor
+    requestLogger, unknownEndpoint, errorHandler, tokenExtractor, userExtractor
 })

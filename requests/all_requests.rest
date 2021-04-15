@@ -20,14 +20,13 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3003/api/blogs/60770415ea98dfbd2fcd9586
+PUT http://localhost:3003/api/blogs/6078922aad090d1c6301d254
 Content-Type: application/json
 
 {
     "title": "Jarcorino las tarrias",
     "author": "El tarrias",
-    "url": "http://lastarrias.com",
-    "likes": 40
+    "likes": 70
 }
 
 ###
@@ -58,10 +57,10 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYwNzg2ZGIwYTY3ODYxMTAxYzcyZjc4MSIsImlhdCI6MTYxODUxNDQ5MSwiZXhwIjoxNjE4NTE4MDkxfQ.C7eo7Yuo9a3AJTbMwrpmQHe70brR8jW2wR50Y2oLcMk
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub2dhbGVzIiwiaWQiOiI2MDc4NmRiOWE2Nzg2MTEwMWM3MmY3ODIiLCJpYXQiOjE2MTg1MTU0OTgsImV4cCI6MTYxODUxOTA5OH0.WSSJc-33DmDpyoqPKcgJt6AVylcbH431SDPaS2Vw9Hk
 
 {
-    "title": "This was created with root",
+    "title": "This was created with anogales",
     "author": "Tjejjee",
     "url": "http:tuvieja.com"
 }
