@@ -1,22 +1,28 @@
 /* eslint-disable no-undef */
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({})
+    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
     response.json(blogs)
 })
 
 blogsRouter.post('/', async (request, response) => {
     const body = request.body
+    const user = await User.findById(body.userId)
+
     const blog = new Blog({
         title: body.title === undefined ? response.status(400).end() : body.title,
         author: body.author,
         url: body.url === undefined ? response.status(400).end() : body.url,
-        likes: body.likes === undefined ? 0 : body.likes
+        likes: body.likes === undefined ? 0 : body.likes,
+        user: user._id
     })
 
     const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
     response.json(savedBlog.toJSON)
 })
 
@@ -43,30 +49,10 @@ blogsRouter.put('/:id', async (request, response) => {
 
 })
 
-/* app.put('/api/persons/:id', (request, response) => {
-    const body = request.body
-
-    const person = {
-        name: body.name,
-        number: body.number
-    }
-
-    Person.findByIdAndUpdate(request.params.id, person, {
-        new: true
-    })
-        .then(updatedPerson => {
-            if(updatedPerson) {
-                response.json(updatedPerson.toJSON())
-            } else {
-                response.status(404).end()
-            }
-        })
-        // eslint-disable-next-line no-undef
-        .catch(error => next(error))
-
-})
- */
-
+/* blogsRouter.delete('/', async(request, response) => {
+    await Blog.deleteMany({})
+    response.status(200).end()
+}) */
 
 module.exports = blogsRouter
 
