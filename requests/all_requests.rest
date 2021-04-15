@@ -57,11 +57,10 @@ Content-Type: application/json
 ###
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub2dhbGVzIiwiaWQiOiI2MDc4NmRiOWE2Nzg2MTEwMWM3MmY3ODIiLCJpYXQiOjE2MTg1MTEyNDR9.R54Zuo4motSHUNv8YqR2pKu81eR9PoSzNSyinysStpE
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub2dhbGVzIiwiaWQiOiI2MDc4NmRiOWE2Nzg2MTEwMWM3MmY3ODIiLCJpYXQiOjE2MTg1MTI2NDMsImV4cCI6MTYxODUxNjI0M30.BGJCiVqetxyxUlU3zaOm23VB1-DlK_LoWx0UNAFzzLI
 
 {
-    "title": "Token testing maybe??",
-    "author": "Tu vieja",
-    "url": "http:tuvieja.com",
-    "userId": "60786db9a67861101c72f782"
+    "title": "Testing middleware??",
+    "author": "Tjejjee",
+    "url": "http:tuvieja.com"
 }
