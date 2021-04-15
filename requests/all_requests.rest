@@ -2,9 +2,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Test controllers",
+    "title": "Test controllers 02",
     "author": "Tu vieja",
-    "url": "http:tuvieja.com"
+    "url": "http:tuvieja.com",
+    "userId": "60786db9a67861101c72f782"
 }
 
 ###
@@ -28,3 +29,17 @@ Content-Type: application/json
     "url": "http://lastarrias.com",
     "likes": 40
 }
+
+###
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+    "blogs": [],
+    "username": "anogales",
+    "name": "Alex Nogales",
+    "password": "password"
+}
+
+###
+DELETE http://localhost:3003/api/blogs
