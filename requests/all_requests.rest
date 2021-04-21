@@ -12,7 +12,7 @@ Content-Type: application/json
 GET http://localhost:3003/api/blogs/
 
 ###
-PUT http://localhost:3003/api/blogs/60770415ea98dfbd2fcd9586
+PUT http://localhost:3003/api/blogs/607f04fe84deb5065b66eba3
 Content-Type: application/json
 
 {
@@ -50,8 +50,8 @@ POST http://localhost:3003/api/login
 Content-Type: application/json
 
 {
-    "username": "anogales",
-    "password": "password"
+    "username": "root",
+    "password": "clavecita"
 }
 
 ###
