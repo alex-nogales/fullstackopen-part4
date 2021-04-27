@@ -64,3 +64,5 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub
     "author": "Tjejjee",
     "url": "http:tuvieja.com"
 }
+###
+POST http://localhost:3003/api/testing/reset

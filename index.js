@@ -8,5 +8,5 @@ const server = http.createServer(app)
 
 // eslint-disable-next-line no-undef
 server.listen(config.PORT, () => {
-    logger.info(`Server running on port ${config.PORT}`)
+  logger.info(`Server running on port ${config.PORT}`)
 })
